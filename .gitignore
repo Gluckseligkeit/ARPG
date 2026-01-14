@@ -1,0 +1,20 @@
+# Unreal Engine Generated Folders
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+
+# Visual Studio / IDE Files
+.vscode/
+.vs/
+*.vc.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+
+# Mac / Xcode Files (Good to keep just in case)
+*.xcodeproj
+*.xcworkspace
