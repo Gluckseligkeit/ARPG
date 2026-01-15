@@ -14,4 +14,7 @@ class ARPG_API APlayerCharacter : public AMainCharacter
 {
 	GENERATED_BODY()
 	
+public:
+	APlayerCharacter();
+	
 };
