@@ -15,9 +15,7 @@ class ARPG_API AEnemyCharacter : public AMainCharacter, public IEnemyInterface
 {
 	GENERATED_BODY()
 public:
+	AEnemyCharacter();
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
-	
-	UPROPERTY(BlueprintReadOnly)
-	bool bHighlighted = false;
 };
