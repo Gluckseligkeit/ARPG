@@ -4,10 +4,66 @@
 #include "Player/MainPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interaction/EnemyInterface.h"
 
 AMainPlayerController::AMainPlayerController()
 {
 	bReplicates = true;
+}
+
+void AMainPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	CursorTrace();
+}
+
+void AMainPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+	
+	
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor();
+	
+	// Comment copy on git
+	
+	if (LastActor == nullptr)
+	{
+		if (ThisActor != nullptr)
+		{
+			//Case B
+			ThisActor->HighlightActor();
+		}
+		else
+		{
+			//Case A - Both null do nothing
+			
+		}
+	}
+	else //Last Actor is valid
+	{
+		if (ThisActor == nullptr)
+		{
+			//Case C
+			LastActor->UnHighlightActor();
+		}
+		else //Both Valid
+		{
+			if (LastActor != ThisActor)
+			{
+				//Case D
+				LastActor->UnHighlightActor();
+				ThisActor->HighlightActor();
+			}
+			else
+			{
+				//Case E - do nothing
+			}
+		}
+	}
 }
 
 void AMainPlayerController::BeginPlay()
@@ -52,3 +108,5 @@ void AMainPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
 }
+
+
