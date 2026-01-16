@@ -12,3 +12,27 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxHealthChanged.Broadcast(ARPGAttributeSet->GetMaxHealth());
 
 }
+
+void UOverlayWidgetController::BindCallbacksToDependencies()
+{
+	const UARPGAttributeSet* ARPGAttributeSet = CastChecked<UARPGAttributeSet>(AttributeSet);
+	
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		ARPGAttributeSet->GetHealthAttribute()).AddUObject(this, &UOverlayWidgetController::HealthChanged);
+	
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		ARPGAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
+}
+
+void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
+{
+	 
+	OnHealthChanged.Broadcast(Data.NewValue);
+
+}
+
+void UOverlayWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
+{
+	OnMaxHealthChanged.Broadcast(Data.NewValue);
+
+}
