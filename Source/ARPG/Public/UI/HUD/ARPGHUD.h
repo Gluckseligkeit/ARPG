@@ -6,7 +6,11 @@
 #include "GameFramework/HUD.h"
 #include "ARPGHUD.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+class UOverlayWidgetController;
 class UARPGUserWidget;
+struct FWidgetControllerParams;
 /**
  * 
  */
@@ -19,11 +23,21 @@ public:
 	UPROPERTY()
 	TObjectPtr<UARPGUserWidget> OverlayWidget;
 	
+	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
+	
+	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
+	
 protected:
-	virtual void BeginPlay() override;
 	
 private:
 	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UARPGUserWidget> OverlayWidgetClass;
+	
+	UPROPERTY()
+	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 };
+
