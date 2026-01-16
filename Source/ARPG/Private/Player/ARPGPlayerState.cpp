@@ -10,6 +10,7 @@ AARPGPlayerState::AARPGPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UARPGAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
 	
