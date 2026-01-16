@@ -34,7 +34,8 @@ void AARPGEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	{
 		const UARPGAttributeSet* ARPGAttributeSet = Cast<UARPGAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UARPGAttributeSet::StaticClass()));
 		UARPGAttributeSet* MutableARPGAttributeSet = const_cast<UARPGAttributeSet*>(ARPGAttributeSet);
-		MutableARPGAttributeSet->SetHealth(ARPGAttributeSet->GetHealth() + 25.f);
+		MutableARPGAttributeSet->SetHealth(ARPGAttributeSet->GetHealth() + 10.f);
+		MutableARPGAttributeSet->SetMana(ARPGAttributeSet->GetMana() + 10.f);
 		Destroy();
 	}
 }

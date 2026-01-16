@@ -9,7 +9,7 @@ UARPGAttributeSet::UARPGAttributeSet()
 	InitHealth(50.f);
 	InitMaxHealth(100.f);
 	InitMana(50.f);
-	InitMaxMana(50.f);
+	InitMaxMana(200.f);
 }
 
 void UARPGAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
