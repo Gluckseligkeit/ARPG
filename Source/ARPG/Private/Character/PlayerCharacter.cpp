@@ -4,6 +4,7 @@
 #include "Character/PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/ARPGAbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/ARPGPlayerState.h"
 #include "Player/MainPlayerController.h"
@@ -42,6 +43,7 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AARPGPlayerState* ARPGPlayerState = GetPlayerState<AARPGPlayerState>();
 	check(ARPGPlayerState);
 	ARPGPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ARPGPlayerState, this);
+	Cast<UARPGAbilitySystemComponent>(ARPGPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = ARPGPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ARPGPlayerState->GetAttributeSet();
 	
