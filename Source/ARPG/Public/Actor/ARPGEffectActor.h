@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "ARPGEffectActor.generated.h"
 
+class UAbilitySystemComponent;
 class UGameplayEffect;
 
 UENUM(BlueprintType)
@@ -48,24 +50,25 @@ protected:
 	bool bDestroyOnEffectRemoval = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
-	TSubclassOf<UGameplayEffect> InstantGameplayEffect;
+	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	EEffectApplicationPolicy InstantEffectApplicationPolicy = EEffectApplicationPolicy::DoNoApply;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
-	TSubclassOf<UGameplayEffect> DurationGameplayEffect;
+	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	EEffectApplicationPolicy DurationEffectApplicationPolicy = EEffectApplicationPolicy::DoNoApply;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
-	TSubclassOf<UGameplayEffect> InfiniteGameplayEffect;
+	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNoApply;
 	
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
 	
-private:
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+	
 };
