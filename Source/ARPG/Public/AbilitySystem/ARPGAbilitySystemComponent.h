@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "ARPGAbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags*/)
+
 /**
  * 
  */
@@ -17,6 +19,8 @@ class ARPG_API UARPGAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	
 	void AbilityActorInfoSet();
+	
+	FEffectAssetTags EffectAssetTags;
 	
 protected:
 	
