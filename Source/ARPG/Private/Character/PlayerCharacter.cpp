@@ -54,4 +54,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 			ARPGHUD->InitOverlay(MainPlayerController, ARPGPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+	InitializePrimaryAttributes();
+	
 }

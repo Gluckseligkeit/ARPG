@@ -2,6 +2,7 @@
 
 
 #include "Character/MainCharacter.h"
+#include "AbilitySystemComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -28,4 +29,14 @@ void AMainCharacter::BeginPlay()
 
 void AMainCharacter::InitAbilityActorInfo()
 {
+	
+}
+
+void AMainCharacter::InitializePrimaryAttributes() const
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultPrimaryAttributes);
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f, ContextHandle );
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
