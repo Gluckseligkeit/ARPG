@@ -38,6 +38,13 @@ void APlayerCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 APlayerCharacter::GetPlayerLevel()
+{
+	AARPGPlayerState* ARPGPlayerState = GetPlayerState<AARPGPlayerState>();
+	check(ARPGPlayerState);
+	return ARPGPlayerState->GetPlayerLevel();
+}
+
 void APlayerCharacter::InitAbilityActorInfo()
 {
 	AARPGPlayerState* ARPGPlayerState = GetPlayerState<AARPGPlayerState>();
@@ -54,6 +61,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 			ARPGHUD->InitOverlay(MainPlayerController, ARPGPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
-	InitializePrimaryAttributes();
+	InitializeDefaultAttributes();
 	
 }

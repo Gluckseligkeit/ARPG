@@ -96,7 +96,7 @@ public:
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Health);
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Vital Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MaxHealth);
 	
@@ -104,9 +104,163 @@ public:
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Mana);
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Vital Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Secondary Attributes")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MaxMana);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Stamina, Category = "Vital Attributes")
+	FGameplayAttributeData Stamina;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Stamina);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxStamina, Category = "Secondary Attributes")
+	FGameplayAttributeData MaxStamina;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MaxStamina);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegeneration, Category = "Secondary Attributes")
+	FGameplayAttributeData HealthRegeneration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, HealthRegeneration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration, Category = "Secondary Attributes")
+	FGameplayAttributeData ManaRegeneration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, ManaRegeneration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_StaminaRegeneration, Category = "Secondary Attributes")
+	FGameplayAttributeData StaminaRegeneration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, StaminaRegeneration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MeleeAttackPower, Category = "Secondary Attributes")
+	FGameplayAttributeData MeleeAttackPower;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MeleeAttackPower);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RangedAttackPower, Category = "Secondary Attributes")
+	FGameplayAttributeData RangedAttackPower;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, RangedAttackPower);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MagicPower, Category = "Secondary Attributes")
+	FGameplayAttributeData MagicPower;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MagicPower);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitChance, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitChance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CriticalHitChance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalDamageMultiplier, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalDamageMultiplier;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CriticalDamageMultiplier);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Armor);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category = "Secondary Attributes")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, ArmorPenetration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Secondary Attributes")
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, PhysicalResistance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalPenetration, Category = "Secondary Attributes")
+	FGameplayAttributeData PhysicalPenetration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, PhysicalPenetration);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MagicResistance, Category = "Secondary Attributes")
+	FGameplayAttributeData MagicResistance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MagicResistance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MagicPenetration, Category = "Secondary Attributes")
+	FGameplayAttributeData MagicPenetration;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MagicPenetration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AccuracyRating, Category = "Secondary Attributes")
+	FGameplayAttributeData AccuracyRating;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, AccuracyRating);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EvasionRating, Category = "Secondary Attributes")
+	FGameplayAttributeData EvasionRating;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, EvasionRating);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AttackSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData AttackSpeed;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, AttackSpeed);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CastSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData CastSpeed;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CastSpeed);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MovementSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData MovementSpeed;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MovementSpeed);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CooldownReduction, Category = "Secondary Attributes")
+	FGameplayAttributeData CooldownReduction;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CooldownReduction);
+	
+	UFUNCTION()
+	void OnRep_CooldownReduction(const FGameplayAttributeData& OldCooldownReduction) const;
+	
+	UFUNCTION()
+	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
+	
+	UFUNCTION()
+	void OnRep_CastSpeed(const FGameplayAttributeData& OldCastSpeed) const;
+	
+	UFUNCTION()
+	void OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed) const;
+	
+	UFUNCTION()
+	void OnRep_EvasionRating(const FGameplayAttributeData& OldEvasionRating) const;
+	
+	UFUNCTION()
+	void OnRep_AccuracyRating(const FGameplayAttributeData& OldAccuracyRating) const;
+	
+	UFUNCTION()
+	void OnRep_MagicPenetration(const FGameplayAttributeData& OldMagicPenetration) const;
+	
+	UFUNCTION()
+	void OnRep_MagicResistance(const FGameplayAttributeData& OldMagicResistance) const;
+	
+	UFUNCTION()
+	void OnRep_PhysicalPenetration(const FGameplayAttributeData& OldPhysicalPenetration) const;
+	
+	UFUNCTION()
+	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
+	
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
+	
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
+	
+	UFUNCTION()
+	void OnRep_CriticalDamageMultiplier(const FGameplayAttributeData& OldCriticalDamageMultiplier) const;
+	
+	UFUNCTION()
+	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const;
+	
+	UFUNCTION()
+	void OnRep_MagicPower(const FGameplayAttributeData& OldMagicPower) const;
+	
+	UFUNCTION()
+	void OnRep_RangedAttackPower(const FGameplayAttributeData& OldRangedAttackPower) const;
+	
+	UFUNCTION()
+	void OnRep_MeleeAttackPower(const FGameplayAttributeData& OldMeleeAttackPower) const;
+	
+	UFUNCTION()
+	void OnRep_StaminaRegeneration(const FGameplayAttributeData& OldStaminaRegeneration) const;
+	
+	UFUNCTION()
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const;
+
+	UFUNCTION()
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const;
+
+	UFUNCTION()
+	void OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina) const;
+
+	UFUNCTION()
+	void OnRep_Stamina(const FGameplayAttributeData& OldStamina) const;
 	
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;

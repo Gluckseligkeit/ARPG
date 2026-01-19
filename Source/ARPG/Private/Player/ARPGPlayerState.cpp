@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/ARPGAbilitySystemComponent.h"
 #include "AbilitySystem/ARPGAttributeSet.h"
+#include "Net/UnrealNetwork.h"
 
 AARPGPlayerState::AARPGPlayerState()
 {
@@ -20,7 +21,19 @@ AARPGPlayerState::AARPGPlayerState()
 	SetNetUpdateFrequency(100.f);
 }
 
+void AARPGPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(AARPGPlayerState, Level)
+}
+
 UAbilitySystemComponent* AARPGPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AARPGPlayerState::OnRep_Level(int32& OldLevel)
+{
+	
 }

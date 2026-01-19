@@ -10,10 +10,8 @@
 
 UARPGAttributeSet::UARPGAttributeSet()
 {
-	InitHealth(50.f);
-	InitMaxHealth(100.f);
-	InitMana(50.f);
-	InitMaxMana(200.f);
+	InitHealth(10.f);
+	InitMana(10.f);
 }
 
 void UARPGAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -21,9 +19,8 @@ void UARPGAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePropert
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Health, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Mana, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
 	
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Strength, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Agility, COND_None, REPNOTIFY_Always);
@@ -31,8 +28,30 @@ void UARPGAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePropert
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Dexterity, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Constitution, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Wisdom, COND_None, REPNOTIFY_Always);
-
-
+	
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MaxStamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, StaminaRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MeleeAttackPower, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, RangedAttackPower, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicPower, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CriticalDamageMultiplier, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, PhysicalPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, AccuracyRating, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, EvasionRating, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, AttackSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CastSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CooldownReduction, COND_None, REPNOTIFY_Always);
 
 }
 
@@ -101,7 +120,7 @@ void UARPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	}
 }
 
-//Health
+//Vital
 void UARPGAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Health, OldHealth);
@@ -110,7 +129,7 @@ void UARPGAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHeal
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MaxHealth, OldMaxHealth);
 }
-//Mana
+
 void UARPGAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Mana, OldMana);
@@ -119,37 +138,142 @@ void UARPGAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) 
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MaxMana, OldMaxMana);
 }
+
+void UARPGAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Stamina, OldStamina);
+}
+
+void UARPGAttributeSet::OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MaxStamina, OldMaxStamina);
+}
+
+//Primary
+
 void UARPGAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Strength, OldStrength);
 }
-
 void UARPGAttributeSet::OnRep_Agility(const FGameplayAttributeData& OldAgility) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Agility, OldAgility);
-
 }
-
 void UARPGAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Intelligence, OldIntelligence);
-
 }
-
 void UARPGAttributeSet::OnRep_Dexterity(const FGameplayAttributeData& OldDexterity) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Dexterity, OldDexterity);
-
 }
-
 void UARPGAttributeSet::OnRep_Constitution(const FGameplayAttributeData& OldConstitution) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Constitution, OldConstitution);
-
 }
-
 void UARPGAttributeSet::OnRep_Wisdom(const FGameplayAttributeData& OldWisdom) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Wisdom, OldWisdom);
+}
 
+//Secondary
+
+void UARPGAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, HealthRegeneration, OldHealthRegeneration);
+}
+
+void UARPGAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, ManaRegeneration, OldManaRegeneration);
+}
+
+void UARPGAttributeSet::OnRep_StaminaRegeneration(const FGameplayAttributeData& OldStaminaRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, StaminaRegeneration, OldStaminaRegeneration);
+}
+
+void UARPGAttributeSet::OnRep_MeleeAttackPower(const FGameplayAttributeData& OldMeleeAttackPower) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MeleeAttackPower, OldMeleeAttackPower);
+}
+
+void UARPGAttributeSet::OnRep_RangedAttackPower(const FGameplayAttributeData& OldRangedAttackPower) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, RangedAttackPower, OldRangedAttackPower);
+}
+
+void UARPGAttributeSet::OnRep_MagicPower(const FGameplayAttributeData& OldMagicPower) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MagicPower, OldMagicPower);
+}
+
+void UARPGAttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CriticalHitChance, OldCriticalHitChance);
+}
+
+void UARPGAttributeSet::OnRep_CriticalDamageMultiplier(const FGameplayAttributeData& OldCriticalDamageMultiplier) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CriticalDamageMultiplier, OldCriticalDamageMultiplier);
+}
+
+void UARPGAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Armor, OldArmor);
+}
+
+void UARPGAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, ArmorPenetration, OldArmorPenetration);
+}
+
+void UARPGAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, PhysicalResistance, OldPhysicalResistance);
+}
+
+void UARPGAttributeSet::OnRep_PhysicalPenetration(const FGameplayAttributeData& OldPhysicalPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, PhysicalPenetration, OldPhysicalPenetration);
+}
+
+void UARPGAttributeSet::OnRep_MagicResistance(const FGameplayAttributeData& OldMagicResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MagicResistance, OldMagicResistance);
+}
+
+void UARPGAttributeSet::OnRep_MagicPenetration(const FGameplayAttributeData& OldMagicPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MagicPenetration, OldMagicPenetration);
+}
+
+void UARPGAttributeSet::OnRep_AccuracyRating(const FGameplayAttributeData& OldAccuracyRating) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, AccuracyRating, OldAccuracyRating);
+}
+
+void UARPGAttributeSet::OnRep_EvasionRating(const FGameplayAttributeData& OldEvasionRating) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, EvasionRating, OldEvasionRating);
+}
+
+void UARPGAttributeSet::OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, AttackSpeed, OldAttackSpeed);
+}
+
+void UARPGAttributeSet::OnRep_CastSpeed(const FGameplayAttributeData& OldCastSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CastSpeed, OldCastSpeed);
+}
+
+void UARPGAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MovementSpeed, OldMovementSpeed);
+}
+
+void UARPGAttributeSet::OnRep_CooldownReduction(const FGameplayAttributeData& OldCooldownReduction) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CooldownReduction, OldCooldownReduction);
 }
