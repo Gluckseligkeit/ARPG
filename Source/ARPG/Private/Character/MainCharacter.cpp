@@ -36,7 +36,8 @@ void AMainCharacter::ApplyEffecttoSelf(TSubclassOf<UGameplayEffect> GameplayEffe
 {
 	check(IsValid(GetAbilitySystemComponent()));
 	check(GameplayEffectClass);
-	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	ContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, ContextHandle );
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
@@ -45,4 +46,5 @@ void AMainCharacter::InitializeDefaultAttributes() const
 {
 	ApplyEffecttoSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffecttoSelf(DefaultSecondaryAttributes, 1.f);
+	ApplyEffecttoSelf(DefaultVitalAttributes, 1.f);
 }
