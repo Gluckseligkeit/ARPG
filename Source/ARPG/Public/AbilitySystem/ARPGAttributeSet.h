@@ -69,17 +69,17 @@ public:
 	FGameplayAttributeData Strength;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Strength);
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Agility, Category = "PrimaryAttributes")
-	FGameplayAttributeData Agility;
-	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Agility);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Dexterity, Category = "PrimaryAttributes")
+	FGameplayAttributeData Dexterity;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Dexterity);
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "PrimaryAttributes")
 	FGameplayAttributeData Intelligence;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Intelligence);
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Dexterity, Category = "PrimaryAttributes")
-	FGameplayAttributeData Dexterity;
-	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Dexterity);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Agility, Category = "PrimaryAttributes")
+	FGameplayAttributeData Agility;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Agility);
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Constitution, Category = "PrimaryAttributes")
 	FGameplayAttributeData Constitution;
