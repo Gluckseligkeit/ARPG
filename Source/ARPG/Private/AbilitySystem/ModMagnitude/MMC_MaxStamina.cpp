@@ -33,3 +33,4 @@ float UMMC_MaxStamina::CalculateBaseMagnitude_Implementation(const FGameplayEffe
 	const int32 PlayerLevel = CombatInterface->GetPlayerLevel();
 	
 	return 20.f + 1.0f * Agility + 1.0f * PlayerLevel;
+}
