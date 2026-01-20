@@ -18,6 +18,7 @@ public:
 	static const FARPGGameplayTags& Get() {return GameplayTags;}
 	static void InitializeNativeGameplayTags();
 	
+	FGameplayTag Attributes_Secondary_Armor;
 protected:
 	
 private:
