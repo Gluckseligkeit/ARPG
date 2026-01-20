@@ -11,31 +11,39 @@ USTRUCT(BlueprintType)
 struct FARPGAttributeInfo
 {
 	GENERATED_BODY()
-	
+    
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag AttributeTag = FGameplayTag();
-	
+    
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText AttributeName = FText();
-	
+    
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText AttributeDescription = FText();
-	
+    
 	UPROPERTY(BlueprintReadOnly)
 	float AttributeValue = 0.0f;
 };
 
 /**
- * 
- */
+ * */
 UCLASS()
 class ARPG_API UAttributeInfo : public UDataAsset
 {
 	GENERATED_BODY()
-	
+    
 public:
 	FARPGAttributeInfo FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
-	
+    
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FARPGAttributeInfo> AttributeInformation;
+
+	// --- NEW CODE START ---
+    
+	/** * Creates a button in the details panel to auto-fill the AttributeInformation array.
+	 */
+	UFUNCTION(CallInEditor, Category = "Utility")
+	void FillAttributeInfo();
+
+	// --- NEW CODE END ---
 };
