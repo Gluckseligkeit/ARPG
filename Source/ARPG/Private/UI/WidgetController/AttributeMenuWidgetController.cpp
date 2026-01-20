@@ -10,14 +10,14 @@
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	UARPGAttributeSet* AS = CastChecked<UARPGAttributeSet>(AttributeSet);
+	check(AttributeInfo);
+	
 	for (auto& Pair: AS->TagToAttributes)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
 [this, Pair, AS](const FOnAttributeChangeData& Data)
 		{
-			FARPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
-			Info.AttributeValue = Pair.Value().GetNumericValue(AS);
-			AttributeInfoDelegate.Broadcast(Info);
+			BroadcastAttributeInfo(Pair.Key, Pair.Value());
 		}
 	);
 	}
@@ -26,14 +26,19 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
 	UARPGAttributeSet* AS = CastChecked<UARPGAttributeSet>(AttributeSet);
-	
 	check(AttributeInfo);
 	
 	for (auto& Pair: AS->TagToAttributes)
 	{
-		FARPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
-		Info.AttributeValue = Pair.Value().GetNumericValue(AS);
-		AttributeInfoDelegate.Broadcast(Info);
+		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
 
+}
+
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
+{
+	FARPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
+	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
+	AttributeInfoDelegate.Broadcast(Info);
 }
