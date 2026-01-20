@@ -13,7 +13,40 @@ UARPGAttributeSet::UARPGAttributeSet()
 {
 	const FARPGGameplayTags& GameplayTags = FARPGGameplayTags::Get();
 	
+	//Primary Attributes	
+
 	TagToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Agility, GetAgilityAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Dexterity, GetDexterityAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Constitution, GetConstitutionAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Wisdom, GetWisdomAttribute);
+	
+	//Secondary Attributes
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MaxStamina, GetMaxStaminaAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_StaminaRegeneration, GetStaminaRegenerationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MeleeAttackPower, GetMeleeAttackPowerAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_RangedAttackPower, GetRangedAttackPowerAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicPower, GetMagicPowerAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalDamageMultiplier, GetCriticalDamageMultiplierAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalResistance, GetPhysicalResistanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalPenetration, GetPhysicalPenetrationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicResistance, GetMagicResistanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicPenetration, GetMagicPenetrationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_AccuracyRating, GetAccuracyRatingAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_EvasionRating, GetEvasionRatingAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_AttackSpeed, GetAttackSpeedAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CastSpeed, GetCastSpeedAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MovementSpeed, GetMovementSpeedAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CooldownReduction, GetCooldownReductionAttribute);
+	
 	
 }
 
