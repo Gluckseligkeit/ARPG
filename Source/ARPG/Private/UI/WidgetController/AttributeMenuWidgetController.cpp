@@ -17,9 +17,12 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	UARPGAttributeSet* AS = CastChecked<UARPGAttributeSet>(AttributeSet);
 	
 	check(AttributeInfo);
-	FARPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FARPGGameplayTags::Get().Attributes_Primary_Strength);
-	Info.AttributeValue = AS->GetStrength();
-	AttributeInfoDelegate.Broadcast(Info);
 	
+	for (auto& Pair: AS->TagToAttributes)
+	{
+		FARPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
+		Info.AttributeValue = Pair.Value().GetNumericValue(AS);
+		AttributeInfoDelegate.Broadcast(Info);
+	}
 
 }

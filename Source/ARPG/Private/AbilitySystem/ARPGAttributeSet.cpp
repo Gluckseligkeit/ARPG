@@ -7,9 +7,13 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+#include "ARPGGameplayTags.h"
 
 UARPGAttributeSet::UARPGAttributeSet()
 {
+	const FARPGGameplayTags& GameplayTags = FARPGGameplayTags::Get();
+	
+	TagToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
 	
 }
 
