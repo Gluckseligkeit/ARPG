@@ -3,6 +3,7 @@
 
 #include "Character/MainCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/ARPGAbilitySystemComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -47,4 +48,12 @@ void AMainCharacter::InitializeDefaultAttributes() const
 	ApplyEffecttoSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffecttoSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffecttoSelf(DefaultVitalAttributes, 1.f);
+}
+
+void AMainCharacter::AddCharacterAbilities()
+{
+	UARPGAbilitySystemComponent* ARPGASC = CastChecked<UARPGAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+	
+	ARPGASC->AddCharacterAbilities(StartupAbilities);
 }
