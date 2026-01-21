@@ -2,7 +2,10 @@
 
 
 #include "Player/MainPlayerController.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/ARPGAbilitySystemComponent.h"
 #include "Input/ARPGInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
@@ -68,17 +71,27 @@ void AMainPlayerController::CursorTrace()
 
 void AMainPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Green, *InputTag.ToString());
+	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Green, *InputTag.ToString());
 }
 
 void AMainPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Red, *InputTag.ToString());
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void AMainPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Blue, *InputTag.ToString());
+	GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+UARPGAbilitySystemComponent* AMainPlayerController::GetASC()
+{
+	if (ARPGAbilitySystemComponent == nullptr)
+	{
+		ARPGAbilitySystemComponent = Cast<UARPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return ARPGAbilitySystemComponent;
 }
 
 void AMainPlayerController::BeginPlay()

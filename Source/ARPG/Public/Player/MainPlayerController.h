@@ -7,11 +7,12 @@
 #include "GameplayTagContainer.h"
 #include "MainPlayerController.generated.h"
 
-class UARPGInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
+class UARPGInputConfig;
+class UARPGAbilitySystemComponent;
 
 /**
  * 
@@ -48,5 +49,10 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UARPGInputConfig> InputConfig;
+	
+	UPROPERTY()
+	TObjectPtr<UARPGAbilitySystemComponent> ARPGAbilitySystemComponent;
+	
+	UARPGAbilitySystemComponent* GetASC();
 	
 };
