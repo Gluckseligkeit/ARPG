@@ -16,7 +16,6 @@
 AMainPlayerController::AMainPlayerController()
 {
 	bReplicates = true;
-	
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
@@ -46,7 +45,6 @@ void AMainPlayerController::AutoRun()
 
 void AMainPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 	
@@ -54,42 +52,13 @@ void AMainPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 	
-	// Comment copy on git
+	if (LastActor != ThisActor)
+	{
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->HighlightActor();
+	}
 	
-	if (LastActor == nullptr)
-	{
-		if (ThisActor != nullptr)
-		{
-			//Case B
-			ThisActor->HighlightActor();
-		}
-		else
-		{
-			//Case A - Both null do nothing
-			
-		}
-	}
-	else //Last Actor is valid
-	{
-		if (ThisActor == nullptr)
-		{
-			//Case C
-			LastActor->UnHighlightActor();
-		}
-		else //Both Valid
-		{
-			if (LastActor != ThisActor)
-			{
-				//Case D
-				LastActor->UnHighlightActor();
-				ThisActor->HighlightActor();
-			}
-			else
-			{
-				//Case E - do nothing
-			}
-		}
-	}
+	
 }
 
 void AMainPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
@@ -120,7 +89,7 @@ void AMainPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	}
 	else
 	{
-		APawn* ControlledPawn = GetPawn();
+		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressTreshold && ControlledPawn)
 		{
 			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
@@ -129,7 +98,6 @@ void AMainPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Red, false, 5.f);
 				}
 				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
 				bAutoRunning = true;
@@ -161,10 +129,9 @@ void AMainPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
 		
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		if (CursorHit.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = CursorHit.ImpactPoint;
 		}
 		
 		if (APawn* ControlledPawn = GetPawn())
@@ -217,6 +184,9 @@ void AMainPlayerController::SetupInputComponent()
 
 void AMainPlayerController::Move(const FInputActionValue& InputActionValue)
 {
+	//If anything bugs with autorunning, this is the culprint
+	bAutoRunning = false;
+	
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
