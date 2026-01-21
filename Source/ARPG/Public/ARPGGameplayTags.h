@@ -49,8 +49,14 @@ public:
 	FGameplayTag Attributes_Secondary_MovementSpeed;
 	FGameplayTag Attributes_Secondary_CooldownReduction;
 
-	
-protected:
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_MMB;
+	FGameplayTag InputTag_1;
+	FGameplayTag InputTag_2;
+	FGameplayTag InputTag_3;
+	FGameplayTag InputTag_4;
+	FGameplayTag InputTag_5;
 	
 private:
 	static FARPGGameplayTags GameplayTags;
