@@ -28,6 +28,12 @@ void AMainCharacter::BeginPlay()
 	
 }
 
+FVector AMainCharacter::GetCombatSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void AMainCharacter::InitAbilityActorInfo()
 {
 	
