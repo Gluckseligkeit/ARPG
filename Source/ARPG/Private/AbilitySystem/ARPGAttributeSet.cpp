@@ -8,6 +8,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "ARPGGameplayTags.h"
+#include "AssetDefinitionAssetInfo.h"
+#include "NiagaraValidationRule.h"
 
 UARPGAttributeSet::UARPGAttributeSet()
 {
@@ -148,6 +150,7 @@ void UARPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		UE_LOG(LogTemp, Warning, TEXT("Health changed %s health is now %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{

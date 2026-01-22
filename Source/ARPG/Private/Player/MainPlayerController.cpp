@@ -80,31 +80,30 @@ void AMainPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		}
 		return;
 	}
-	if (bTargeting)
+	
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag); //weird if in single line
+	
+	if (!bTargeting && !bAimKeyDown)
 	{
 		if (GetASC())
 		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-	}
-	else
-	{
-		const APawn* ControlledPawn = GetPawn();
-		if (FollowTime <= ShortPressTreshold && ControlledPawn)
-		{
-			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+			const APawn* ControlledPawn = GetPawn();
+			if (FollowTime <= ShortPressTreshold && ControlledPawn)
 			{
-				Spline->ClearSplinePoints();
-				for (const FVector& PointLoc : NavPath->PathPoints)
+				if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 				{
-					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					Spline->ClearSplinePoints();
+					for (const FVector& PointLoc : NavPath->PathPoints)
+					{
+						Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					}
+					CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+					bAutoRunning = true;
 				}
-				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
-				bAutoRunning = true;
 			}
+			FollowTime = 0.f;
+			bTargeting = false;		
 		}
-		FollowTime = 0.f;
-		bTargeting = false;
 	}
 }
 
@@ -118,7 +117,7 @@ void AMainPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 		return;
 	}
-	if (bTargeting)
+	if (bTargeting || bAimKeyDown)
 	{
 		if (GetASC())
 		{
@@ -179,6 +178,8 @@ void AMainPlayerController::SetupInputComponent()
 	
 	UARPGInputComponent* ARPGInputComponent = CastChecked<UARPGInputComponent>(InputComponent);
 	ARPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMainPlayerController::Move);
+	ARPGInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AMainPlayerController::AimPressed);
+	ARPGInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AMainPlayerController::AimReleased);
 	ARPGInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 

@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/Abilities/ARPGProjectileSpell.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Actor/ARPGProjectile.h"
 #include "Interaction/CombatInterface.h"
 
@@ -13,7 +15,7 @@ void UARPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UARPGProjectileSpell::SpawnProjectile()
+void UARPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
@@ -22,11 +24,12 @@ void UARPGProjectileSpell::SpawnProjectile()
 	if (CombatInterface)
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+		Rotation.Pitch = 0.0f;
 		
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
-		
-		//TODO: Give projectile rotation.
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 		
 		AARPGProjectile* Projectile = GetWorld()->SpawnActorDeferred<AARPGProjectile>(
 			ProjectileClass, SpawnTransform, 
@@ -34,7 +37,9 @@ void UARPGProjectileSpell::SpawnProjectile()
 			Cast<APawn>(GetOwningActorFromActorInfo()), 
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 		
-		//TODO: Give projectile a gameplay effect for damage.
+		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+		Projectile->DamageEffectSpecHandle = SpecHandle;
 		
 		Projectile->FinishSpawning(SpawnTransform);
 	}

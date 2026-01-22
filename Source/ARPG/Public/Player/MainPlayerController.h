@@ -37,6 +37,13 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
 	
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> AimAction;
+	
+	void AimPressed() { bAimKeyDown = true; };
+	void AimReleased() { bAimKeyDown = false; };
+	bool bAimKeyDown = false;
+	
 	void Move(const FInputActionValue& InputActionValue);
 	
 	void CursorTrace();

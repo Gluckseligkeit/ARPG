@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMouseTargetDataSignature, const FGa
  * 
  */
 UCLASS()
-class AURA_API UTargetDataUnderMouse : public UAbilityTask
+class ARPG_API UTargetDataUnderMouse : public UAbilityTask
 {
 	GENERATED_BODY()
 public:
@@ -26,4 +26,6 @@ private:
 
 	virtual void Activate() override;
 	void SendMouseCursorData();
+	
+	void OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag);
 };
