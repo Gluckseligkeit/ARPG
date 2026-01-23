@@ -122,6 +122,14 @@ public:
 	FGameplayAttributeData MaxStamina;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MaxStamina);
 
+	//MEta
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, IncomingDamage);
+	
+	//secondary
+	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegeneration, Category = "Secondary Attributes")
 	FGameplayAttributeData HealthRegeneration;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, HealthRegeneration);
