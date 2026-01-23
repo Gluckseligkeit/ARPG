@@ -48,7 +48,7 @@ void AMainCharacter::InitAbilityActorInfo()
 	
 }
 
-void AMainCharacter::ApplyEffecttoSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
+void AMainCharacter::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
 	check(GameplayEffectClass);
@@ -60,9 +60,9 @@ void AMainCharacter::ApplyEffecttoSelf(TSubclassOf<UGameplayEffect> GameplayEffe
 
 void AMainCharacter::InitializeDefaultAttributes() const
 {
-	ApplyEffecttoSelf(DefaultPrimaryAttributes, 1.f);
-	ApplyEffecttoSelf(DefaultSecondaryAttributes, 1.f);
-	ApplyEffecttoSelf(DefaultVitalAttributes, 1.f);
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
 
 void AMainCharacter::AddCharacterAbilities()

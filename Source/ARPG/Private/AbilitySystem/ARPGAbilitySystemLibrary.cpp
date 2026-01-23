@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 
+#include "AbilitySystemComponent.h"
+#include "Game/ARPGGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/WidgetController/ARPGWidgetController.h"
 #include "Player/ARPGPlayerState.h"
@@ -39,4 +41,26 @@ UAttributeMenuWidgetController* UARPGAbilitySystemLibrary::GetAttributeMenuWidge
 		}
 	}
 	return nullptr;
+}
+
+void UARPGAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	AARPGGameMode* ARPGGameMode = Cast<AARPGGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (ARPGGameMode == nullptr) return;
+	
+	AActor* AvatarActor = ASC->GetAvatarActor();
+	
+	UCharacterClassInfo* CharacterClassInfo = ARPGGameMode->CharacterClassInfo;
+	FCharacterCLassDefaultInfo ClassDefaultInfo = ARPGGameMode->CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	
+	FGameplayEffectContextHandle PrimaryAttributesContextHandle ASC->MakeEffectContext()
+	
+	const FGameplayEffectSpecHandle PrimaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level, ASC->MakeEffectContext());
+	ASC->ApplyGameplayEffectSpecToSelf(*PrimaryAttributesSpecHandle.Data.Get());
+	
+	const FGameplayEffectSpecHandle SecondaryAttributesSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->SecondaryAttribute, Level, ASC->MakeEffectContext());
+	ASC->ApplyGameplayEffectSpecToSelf(*SecondaryAttributesSpecHandle.Data.Get());
+	
+	const FGameplayEffectSpecHandle VitalAttributesSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->VitalAttribute, Level, ASC->MakeEffectContext());
+	ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
 }

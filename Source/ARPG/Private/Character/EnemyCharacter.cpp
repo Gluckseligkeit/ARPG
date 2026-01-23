@@ -4,6 +4,7 @@
 #include "Character/EnemyCharacter.h"
 
 #include "AbilitySystem/ARPGAbilitySystemComponent.h"
+#include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 #include "AbilitySystem/ARPGAttributeSet.h"
 #include "ARPG/ARPG.h"
 #include "Components/WidgetComponent.h"
@@ -78,5 +79,9 @@ void AEnemyCharacter::InitAbilityActorInfo()
 	Cast<UARPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 	
 	InitializeDefaultAttributes();
+}
 
+void AEnemyCharacter::InitializeDefaultAttributes() const
+{
+	UARPGAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }

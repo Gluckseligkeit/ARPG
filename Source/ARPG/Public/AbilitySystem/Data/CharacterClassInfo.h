@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "CharacterClasseInfo.generated.h"
+#include "CharacterClassInfo.generated.h"
 
 class UGameplayEffect;
 
@@ -17,7 +17,7 @@ enum class ECharacterClass : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FCharacterCLassDefautInfo
+struct FCharacterCLassDefaultInfo
 {
 	GENERATED_BODY()
 	
@@ -30,13 +30,13 @@ struct FCharacterCLassDefautInfo
  * 
  */
 UCLASS()
-class ARPG_API UCharacterClasseInfo : public UDataAsset
+class ARPG_API UCharacterClassInfo : public UDataAsset
 {
 	GENERATED_BODY()
 public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defauts")
-	TMap<ECharacterClass, FCharacterCLassDefautInfo> CharacterClassInformation;
+	TMap<ECharacterClass, FCharacterCLassDefaultInfo> CharacterClassInformation;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defauts")
 	TSubclassOf<UGameplayEffect> SecondaryAttribute;
@@ -44,5 +44,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defauts")
 	TSubclassOf<UGameplayEffect> VitalAttribute;
 	
-	FCharacterCLassDefautInfo GetClassDefautInfo(ECharacterClass CharacterClass);
+	FCharacterCLassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 };
