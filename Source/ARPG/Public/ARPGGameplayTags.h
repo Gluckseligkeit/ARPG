@@ -18,6 +18,9 @@ public:
 	static const FARPGGameplayTags& Get() {return GameplayTags;}
 	static void InitializeNativeGameplayTags();
 	
+	FGameplayTag Damage;
+	FGameplayTag Effects_HitReact;
+	
 	FGameplayTag Attributes_Primary_Strength;
 	FGameplayTag Attributes_Primary_Agility;
 	FGameplayTag Attributes_Primary_Intelligence;

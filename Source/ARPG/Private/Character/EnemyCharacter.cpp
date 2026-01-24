@@ -9,6 +9,8 @@
 #include "ARPG/ARPG.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widgets/ARPGUserWidget.h"
+#include "ARPGGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -43,10 +45,18 @@ int32 AEnemyCharacter::GetPlayerLevel()
 	return Level;
 }
 
+void AEnemyCharacter::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
+}
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
+	UARPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 	
 	if (UARPGUserWidget* ARPGUserWidget = Cast<UARPGUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -67,10 +77,20 @@ void AEnemyCharacter::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+		AbilitySystemComponent->RegisterGameplayTagEvent(FARPGGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&AEnemyCharacter::HitReactTagChanged);
+		
 		OnHealthChanged.Broadcast(ARPGAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(ARPGAS->GetMaxHealth());
 
 	}
+}
+
+void AEnemyCharacter::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()

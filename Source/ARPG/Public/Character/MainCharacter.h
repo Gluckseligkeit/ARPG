@@ -12,6 +12,7 @@ class UGameplayAbility;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+class UAnimMontage;
 
 UCLASS(abstract)
 class ARPG_API AMainCharacter : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -23,6 +24,12 @@ public:
 	AMainCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
+	
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MultiCastHandleDeath();
 
 protected:
 	// Called when the game starts or when spawned
@@ -57,9 +64,29 @@ protected:
 	virtual void InitializeDefaultAttributes() const;
 	
 	void AddCharacterAbilities();
+	
+	//DissolveEff
+	
+	void Dissolve();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+	
 private:
 	
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
-
+	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
+	
 };

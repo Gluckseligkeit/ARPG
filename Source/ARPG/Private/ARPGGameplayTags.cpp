@@ -8,6 +8,11 @@ FARPGGameplayTags FARPGGameplayTags::GameplayTags;
 
 void FARPGGameplayTags::InitializeNativeGameplayTags()
 {
+	
+	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage."));
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects_HitReact"), FString("Hit Reaction"));
+
+	
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Strength"), FString("Increases melee damage and carry capacity."));
 	GameplayTags.Attributes_Primary_Agility = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Agility"), FString("Increases attack speed, movement speed, and evasion."));
 	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Intelligence"), FString("Increases magic damage and effect potency."));
