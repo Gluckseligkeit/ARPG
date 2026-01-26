@@ -33,4 +33,16 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPGAbilitySystemLibrary|Character Class Defaults")
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintPure, Category = "ARPGAbilitySystemLibrary|Gameplay Effects")
+	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
+	
+	UFUNCTION(BlueprintPure, Category = "ARPGAbilitySystemLibrary|Gameplay Effects")
+	static bool IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle);
+	
+	UFUNCTION(BlueprintCallable, Category = "ARPGAbilitySystemLibrary|Gameplay Effects")
+	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsBlockedHit);
+	
+	UFUNCTION(BlueprintCallable, Category = "ARPGAbilitySystemLibrary|Gameplay Effects")
+	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsCriticalHit);
 };

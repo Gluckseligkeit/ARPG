@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecutionCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "ARPGAbilityTypes.h"
 #include "ARPGGameplayTags.h"
 #include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 #include "AbilitySystem/ARPGAttributeSet.h"
@@ -84,6 +85,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	//Get Damage Set By Caller Mag
 	
 	float Damage = Spec.GetSetByCallerMagnitude(FARPGGameplayTags::Get().Damage);
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+
 	//float OriginalDamage = Damage;
 	
 	//DefineCrit
@@ -100,8 +103,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalDamageResistanceDef, EvaluationParameters, TargetCriticalDamageResistance);
 	TargetCriticalDamageResistance = FMath::Max<float>(TargetCriticalDamageResistance, 0.0f);
 	
-	const bool bCrit = FMath::RandRange(1, 100) < SourceCriticalHitChance;
-	if (bCrit) Damage *= (SourceCriticalDamageMultiplier - TargetCriticalDamageResistance) / 100.f;
+	const bool bCriticalHit = FMath::RandRange(1, 100) < SourceCriticalHitChance;
+	
+	UARPGAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
+	
+	if (bCriticalHit) Damage *= (SourceCriticalDamageMultiplier - TargetCriticalDamageResistance) / 100.f;
 	
 	//Capture Evasion on Target
 	
@@ -120,6 +126,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.0f);
 	
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
+	
+	UARPGAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	
 	if (bBlocked) Damage *= 0.5f;
 	//Damage = bBlocked ? Damage / 2.0f : Damage;
 		

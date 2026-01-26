@@ -10,6 +10,7 @@
 #include "ARPGGameplayTags.h"
 #include "AssetDefinitionAssetInfo.h"
 #include "NiagaraValidationRule.h"
+#include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/MainPlayerController.h"
@@ -188,13 +189,15 @@ void UARPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
 			
-			ShowFloatingText(Props, LocalIncomingDamage);
+			const bool bCritical= UARPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+			const bool bBlock= UARPGAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+			ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCritical);
 			
 		}
 	}
 }
 
-void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{

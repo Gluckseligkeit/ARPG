@@ -4,6 +4,7 @@
 #include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 
 #include "AbilitySystemComponent.h"
+#include "ARPGAbilityTypes.h"
 #include "Game/ARPGGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/WidgetController/ARPGWidgetController.h"
@@ -89,4 +90,38 @@ UCharacterClassInfo* UARPGAbilitySystemLibrary::GetCharacterClassInfo(const UObj
 	AARPGGameMode* ARPGGameMode = Cast<AARPGGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (ARPGGameMode == nullptr) return nullptr;
 	return ARPGGameMode->CharacterClassInfo;
+}
+
+bool UARPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FARPGGameplayEffectContext* ARPGEffectContext = static_cast<const FARPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return  ARPGEffectContext->IsBlockedHit();
+	}
+	return false;
+}
+
+bool UARPGAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FARPGGameplayEffectContext* ARPGEffectContext = static_cast<const FARPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return  ARPGEffectContext->IsCriticalHit();
+	}
+	return false;
+}
+
+void UARPGAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bIsBlockedHit)
+{
+	if (FARPGGameplayEffectContext* ARPGEffectContext = static_cast<FARPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		ARPGEffectContext->SetIsBlockedHit(bIsBlockedHit);
+	}
+}
+
+void UARPGAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle, bool bIsCriticalHit)
+{
+	if (FARPGGameplayEffectContext* ARPGEffectContext = static_cast<FARPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		ARPGEffectContext->SetIsCriticalHit(bIsCriticalHit);
+	}
 };
