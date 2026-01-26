@@ -161,14 +161,18 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalDamageMultiplier, Category = "Secondary Attributes")
 	FGameplayAttributeData CriticalDamageMultiplier;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CriticalDamageMultiplier);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalDamageResistance, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalDamageResistance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, CriticalDamageResistance);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Armor);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category = "Secondary Attributes")
-	FGameplayAttributeData ArmorPenetration;
-	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, ArmorPenetration);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Ward, Category = "Secondary Attributes")
+	FGameplayAttributeData Ward;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Ward);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Secondary Attributes")
 	FGameplayAttributeData PhysicalResistance;
@@ -186,13 +190,17 @@ public:
 	FGameplayAttributeData MagicPenetration;
 	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, MagicPenetration);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AccuracyRating, Category = "Secondary Attributes")
-	FGameplayAttributeData AccuracyRating;
-	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, AccuracyRating);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Accuracy, Category = "Secondary Attributes")
+	FGameplayAttributeData Accuracy;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, Accuracy);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EvasionRating, Category = "Secondary Attributes")
-	FGameplayAttributeData EvasionRating;
-	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, EvasionRating);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EvasionChance, Category = "Secondary Attributes")
+	FGameplayAttributeData EvasionChance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, EvasionChance);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance, Category = "Secondary Attributes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(UARPGAttributeSet, BlockChance);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AttackSpeed, Category = "Secondary Attributes")
 	FGameplayAttributeData AttackSpeed;
@@ -223,10 +231,13 @@ public:
 	void OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed) const;
 	
 	UFUNCTION()
-	void OnRep_EvasionRating(const FGameplayAttributeData& OldEvasionRating) const;
+	void OnRep_EvasionChance(const FGameplayAttributeData& OldEvasionChance) const;
 	
 	UFUNCTION()
-	void OnRep_AccuracyRating(const FGameplayAttributeData& OldAccuracyRating) const;
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
+	
+	UFUNCTION()
+	void OnRep_Accuracy(const FGameplayAttributeData& OldAccuracy) const;
 	
 	UFUNCTION()
 	void OnRep_MagicPenetration(const FGameplayAttributeData& OldMagicPenetration) const;
@@ -241,13 +252,16 @@ public:
 	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
 	
 	UFUNCTION()
-	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
+	void OnRep_Ward(const FGameplayAttributeData& OldWard) const;
 	
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
 	
 	UFUNCTION()
 	void OnRep_CriticalDamageMultiplier(const FGameplayAttributeData& OldCriticalDamageMultiplier) const;
+	
+	UFUNCTION()
+	void OnRep_CriticalDamageResistance(const FGameplayAttributeData& OldCriticalDamageResistance) const;
 	
 	UFUNCTION()
 	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const;

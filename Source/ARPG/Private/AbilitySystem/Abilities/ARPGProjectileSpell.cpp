@@ -42,7 +42,7 @@ void UARPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
 		
 		const FARPGGameplayTags GameplayTags = FARPGGameplayTags::Get();
-		const float ScaledDamage = Damage.GetValueAtLevel(10);
+		const float ScaledDamage = Damage.GetValueAtLevel(100);
 		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 		

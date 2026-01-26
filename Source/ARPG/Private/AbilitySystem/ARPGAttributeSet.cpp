@@ -39,14 +39,16 @@ UARPGAttributeSet::UARPGAttributeSet()
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicPower, GetMagicPowerAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalDamageMultiplier, GetCriticalDamageMultiplierAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalDamageResistance, GetCriticalDamageResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute);
-	TagToAttributes.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Ward, GetWardAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalResistance, GetPhysicalResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalPenetration, GetPhysicalPenetrationAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicResistance, GetMagicResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicPenetration, GetMagicPenetrationAttribute);
-	TagToAttributes.Add(GameplayTags.Attributes_Secondary_AccuracyRating, GetAccuracyRatingAttribute);
-	TagToAttributes.Add(GameplayTags.Attributes_Secondary_EvasionRating, GetEvasionRatingAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Accuracy, GetAccuracyAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_EvasionChance, GetEvasionChanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Secondary_BlockChance, GetBlockChanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_AttackSpeed, GetAttackSpeedAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CastSpeed, GetCastSpeedAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MovementSpeed, GetMovementSpeedAttribute);
@@ -80,14 +82,16 @@ void UARPGAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePropert
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicPower, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CriticalDamageMultiplier, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CriticalDamageResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Armor, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Ward, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, PhysicalPenetration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MagicPenetration, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, AccuracyRating, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, EvasionRating, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, Accuracy, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, EvasionChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, AttackSpeed, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, CastSpeed, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UARPGAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
@@ -299,14 +303,19 @@ void UARPGAttributeSet::OnRep_CriticalDamageMultiplier(const FGameplayAttributeD
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CriticalDamageMultiplier, OldCriticalDamageMultiplier);
 }
 
+void UARPGAttributeSet::OnRep_CriticalDamageResistance(const FGameplayAttributeData& OldCriticalDamageResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, CriticalDamageResistance, OldCriticalDamageResistance);
+}
+
 void UARPGAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Armor, OldArmor);
 }
 
-void UARPGAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+void UARPGAttributeSet::OnRep_Ward(const FGameplayAttributeData& OldWard) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, ArmorPenetration, OldArmorPenetration);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Ward, OldWard);
 }
 
 void UARPGAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
@@ -329,14 +338,19 @@ void UARPGAttributeSet::OnRep_MagicPenetration(const FGameplayAttributeData& Old
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, MagicPenetration, OldMagicPenetration);
 }
 
-void UARPGAttributeSet::OnRep_AccuracyRating(const FGameplayAttributeData& OldAccuracyRating) const
+void UARPGAttributeSet::OnRep_Accuracy(const FGameplayAttributeData& OldAccuracy) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, AccuracyRating, OldAccuracyRating);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, Accuracy, OldAccuracy);
 }
 
-void UARPGAttributeSet::OnRep_EvasionRating(const FGameplayAttributeData& OldEvasionRating) const
+void UARPGAttributeSet::OnRep_EvasionChance(const FGameplayAttributeData& OldEvasionChance) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, EvasionRating, OldEvasionRating);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, EvasionChance, OldEvasionChance);
+}
+
+void UARPGAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UARPGAttributeSet, BlockChance, OldBlockChance);
 }
 
 void UARPGAttributeSet::OnRep_AttackSpeed(const FGameplayAttributeData& OldAttackSpeed) const
