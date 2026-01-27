@@ -10,7 +10,6 @@
  * Singleton with native gameplay tags
  */
 
-
 struct FARPGGameplayTags
 {
 	
