@@ -19,6 +19,9 @@ public:
 	static void InitializeNativeGameplayTags();
 	
 	FGameplayTag Damage;
+	FGameplayTag Damage_Physical;
+	FGameplayTag Damage_Magical;
+	
 	FGameplayTag Effects_HitReact;
 	
 	FGameplayTag Attributes_Primary_Strength;
@@ -62,6 +65,8 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 	FGameplayTag InputTag_5;
+	
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	
 private:
 	static FARPGGameplayTags GameplayTags;

@@ -8,12 +8,10 @@
 #include "ARPGGameplayTags.h"
 #include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 #include "AbilitySystem/ARPGAttributeSet.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
 
 struct ARPGDamageStatics
 {
-	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(EvasionChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalResistance);
@@ -24,10 +22,10 @@ struct ARPGDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalDamageMultiplier);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalDamageResistance);
 
+	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> TagsToCaptureDefs;
 	
 	ARPGDamageStatics()
 	{
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, Armor, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, BlockChance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, EvasionChance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, PhysicalResistance, Target, false);
@@ -38,7 +36,17 @@ struct ARPGDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, MagicPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, CriticalHitChance, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UARPGAttributeSet, CriticalDamageMultiplier, Source, false);
-
+		
+		const FARPGGameplayTags& Tags = FARPGGameplayTags::Get();
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_BlockChance, BlockChanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_EvasionChance, EvasionChanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_PhysicalResistance, PhysicalResistanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_MagicResistance, MagicResistanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_PhysicalPenetration, PhysicalPenetrationDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_MagicPenetration, MagicPenetrationDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_CriticalHitChance, CriticalHitChanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_CriticalDamageMultiplier, CriticalDamageMultiplierDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_CriticalDamageResistance, CriticalDamageResistanceDef);		
 	}
 };
 
@@ -50,7 +58,6 @@ static const ARPGDamageStatics& DamageStatics()
 
 UExecCalc_Damage::UExecCalc_Damage()
 {
-	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BlockChanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().EvasionChanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResistanceDef);
@@ -61,6 +68,8 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalDamageMultiplierDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalDamageResistanceDef);
 
+	
+	
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -84,7 +93,26 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	//Get Damage Set By Caller Mag
 	
-	float Damage = Spec.GetSetByCallerMagnitude(FARPGGameplayTags::Get().Damage);
+	float Damage = 0.f;
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FARPGGameplayTags::Get().DamageTypesToResistances)
+	{
+		const FGameplayTag DamageTypeTag = Pair.Key;
+		const FGameplayTag ResistanceTag = Pair.Value;
+		
+		checkf(ARPGDamageStatics().TagsToCaptureDefs.Contains(ResistanceTag), TEXT("TagsToCaptureDefs doesn't contain Tag: [%s] in ExecCalc_Damage"), *ResistanceTag.ToString());
+		const FGameplayEffectAttributeCaptureDefinition CaptureDef = ARPGDamageStatics().TagsToCaptureDefs[ResistanceTag];
+
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+		
+		float Resistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluationParameters, Resistance);
+		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
+
+		DamageTypeValue *= ( 100.f - Resistance ) / 100.f;
+		
+		Damage += DamageTypeValue;
+	}
+	
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	//float OriginalDamage = Damage;

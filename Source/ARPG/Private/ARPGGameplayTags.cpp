@@ -10,8 +10,14 @@ void FARPGGameplayTags::InitializeNativeGameplayTags()
 {
 	
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage."));
-	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects_HitReact"), FString("Hit Reaction"));
-
+	
+	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage Physical."));
+	GameplayTags.Damage_Magical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Magical"), FString("Damage Magical."));
+	
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_PhysicalResistance);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Magical, GameplayTags.Attributes_Secondary_MagicResistance);
+	
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Hit Reaction"));
 	
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Strength"), FString("Increases melee damage and carry capacity."));
 	GameplayTags.Attributes_Primary_Agility = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Agility"), FString("Increases attack speed, movement speed, and evasion."));

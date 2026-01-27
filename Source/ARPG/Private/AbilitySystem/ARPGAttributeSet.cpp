@@ -191,19 +191,19 @@ void UARPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			
 			const bool bCritical= UARPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			const bool bBlock= UARPGAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
-			ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCritical);
+			ShowFloatingText(Props, LocalIncomingDamage, bCritical, bBlock);
 			
 		}
 	}
 }
 
-void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
+void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bCriticalHit, bool bBlockedHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if (AMainPlayerController* PC = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit, bBlockedHit);
 		}
 	}
 }
