@@ -14,8 +14,11 @@ void FARPGGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage Physical."));
 	GameplayTags.Damage_Magical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Magical"), FString("Damage Magical."));
 	
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_PhysicalResistance);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Magical, GameplayTags.Attributes_Secondary_MagicResistance);
+	GameplayTags.Attributes_Resistance_PhysicalResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.PhysicalResistance"), FString("Percentage reduction of incoming physical damage."));
+	GameplayTags.Attributes_Resistance_MagicResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.MagicResistance"), FString("Percentage reduction of incoming magic damage."));GameplayTags.Attributes_Secondary_MagicPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MagicPenetration"), FString("Ignores a portion of enemy magic resistance."));
+	
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_PhysicalResistance);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Magical, GameplayTags.Attributes_Resistance_MagicResistance);
 	
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Hit Reaction"));
 	
@@ -40,9 +43,7 @@ void FARPGGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Secondary_CriticalDamageResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalDamageResistance"), FString("Reduced damage multiplier for critical hits."));
 	GameplayTags.Attributes_Secondary_Armor = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Armor"), FString("Reduces physical damage taken."));
 	GameplayTags.Attributes_Secondary_Ward = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Ward"), FString("Reduces magical damage taken."));
-	GameplayTags.Attributes_Secondary_PhysicalResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.PhysicalResistance"), FString("Percentage reduction of incoming physical damage."));
 	GameplayTags.Attributes_Secondary_PhysicalPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.PhysicalPenetration"), FString("Ignores a portion of enemy physical resistance."));
-	GameplayTags.Attributes_Secondary_MagicResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MagicResistance"), FString("Percentage reduction of incoming magic damage."));GameplayTags.Attributes_Secondary_MagicPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MagicPenetration"), FString("Ignores a portion of enemy magic resistance."));
 	GameplayTags.Attributes_Secondary_Accuracy = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Accuracy"), FString("Increases chance to hit evasive or distant enemies."));
 	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.BlockChance"), FString("Chance to block an incoming attack."));
 	GameplayTags.Attributes_Secondary_EvasionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.EvasionChance"), FString("Chance to avoid an incoming attack."));
@@ -61,6 +62,8 @@ void FARPGGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.3"), FString("Input Tag for 3 Key"));
 	GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.4"), FString("Input Tag for 4 Key"));
 	GameplayTags.InputTag_5 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.5"), FString("Input Tag for 5 Key"));
+
+
 
 }
 

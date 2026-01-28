@@ -10,6 +10,7 @@
  * Singleton with native gameplay tags
  */
 
+
 struct FARPGGameplayTags
 {
 	
@@ -44,9 +45,9 @@ public:
 	FGameplayTag Attributes_Secondary_CriticalDamageResistance;
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_Ward;
-	FGameplayTag Attributes_Secondary_PhysicalResistance;
+	FGameplayTag Attributes_Resistance_PhysicalResistance;
 	FGameplayTag Attributes_Secondary_PhysicalPenetration;
-	FGameplayTag Attributes_Secondary_MagicResistance;
+	FGameplayTag Attributes_Resistance_MagicResistance;
 	FGameplayTag Attributes_Secondary_MagicPenetration;
 	FGameplayTag Attributes_Secondary_Accuracy;
 	FGameplayTag Attributes_Secondary_EvasionChance;

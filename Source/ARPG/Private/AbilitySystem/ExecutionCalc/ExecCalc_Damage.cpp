@@ -40,8 +40,8 @@ struct ARPGDamageStatics
 		const FARPGGameplayTags& Tags = FARPGGameplayTags::Get();
 		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_BlockChance, BlockChanceDef);
 		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_EvasionChance, EvasionChanceDef);
-		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_PhysicalResistance, PhysicalResistanceDef);
-		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_MagicResistance, MagicResistanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Resistance_PhysicalResistance, PhysicalResistanceDef);
+		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Resistance_MagicResistance, MagicResistanceDef);
 		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_PhysicalPenetration, PhysicalPenetrationDef);
 		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_MagicPenetration, MagicPenetrationDef);
 		TagsToCaptureDefs.Add(FARPGGameplayTags::Get().Attributes_Secondary_CriticalHitChance, CriticalHitChanceDef);
@@ -175,19 +175,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	//const UCharacterClassInfo* CHaracterClassInfo = UARPGAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 	//const FRealCurve* PhysicalPenetrationCurve = CHaracterClassInfo->DamageCalculationCoefficients->FindCurve(FName("PhysicalPenetration"), FString());
 	//const float PhysicalPenetrationCoefficient = PhysicalPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
-	
-	//Resistance magic/phys
-	
-	float TargetPhysicalResistance = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().PhysicalResistanceDef, EvaluationParameters, TargetPhysicalResistance);
-	TargetPhysicalResistance = FMath::Max<float>(TargetPhysicalResistance, 0.0f);
-	
-	float TargetMagicResistance = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().MagicResistanceDef, EvaluationParameters, TargetMagicResistance);
-	TargetMagicResistance = FMath::Max<float>(TargetMagicResistance, 0.0f);
-	
-	const float EffectivePhysicalResistance = TargetPhysicalResistance * ( 100 - SourcePhysicalPenetration) / 100.f;
-	Damage *= ( 100 - EffectivePhysicalResistance ) / 100.f;
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UARPGAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);

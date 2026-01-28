@@ -56,8 +56,10 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
-	UARPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
-	
+	if (HasAuthority())
+	{
+		UARPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	}
 	if (UARPGUserWidget* ARPGUserWidget = Cast<UARPGUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
 		ARPGUserWidget->SetWidgetController(this);
@@ -98,7 +100,10 @@ void AEnemyCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UARPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 	
-	InitializeDefaultAttributes();
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
 }
 
 void AEnemyCharacter::InitializeDefaultAttributes() const

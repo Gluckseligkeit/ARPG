@@ -43,9 +43,9 @@ UARPGAttributeSet::UARPGAttributeSet()
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalDamageResistance, GetCriticalDamageResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Ward, GetWardAttribute);
-	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalResistance, GetPhysicalResistanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Resistance_PhysicalResistance, GetPhysicalResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_PhysicalPenetration, GetPhysicalPenetrationAttribute);
-	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicResistance, GetMagicResistanceAttribute);
+	TagToAttributes.Add(GameplayTags.Attributes_Resistance_MagicResistance, GetMagicResistanceAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_MagicPenetration, GetMagicPenetrationAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_Accuracy, GetAccuracyAttribute);
 	TagToAttributes.Add(GameplayTags.Attributes_Secondary_EvasionChance, GetEvasionChanceAttribute);
@@ -201,7 +201,7 @@ void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
-		if (AMainPlayerController* PC = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		if (AMainPlayerController* PC = Cast<AMainPlayerController>(Props.SourceCharacter->GetController()))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit, bBlockedHit);
 		}
