@@ -10,6 +10,9 @@
 #include "Components/WidgetComponent.h"
 #include "UI/Widgets/ARPGUserWidget.h"
 #include "ARPGGameplayTags.h"
+#include "AI/ARPGAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -20,10 +23,27 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	
 	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
 	
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void AEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	if (!HasAuthority()) return;
+	ARPGAIController = Cast<AARPGAIController>(NewController);
+	ARPGAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	ARPGAIController->RunBehaviorTree(BehaviorTree);
+	ARPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	ARPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 }
 
 void AEnemyCharacter::HighlightActor()
@@ -93,6 +113,7 @@ void AEnemyCharacter::HitReactTagChanged(const FGameplayTag CallbackTag, int32 N
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	ARPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()

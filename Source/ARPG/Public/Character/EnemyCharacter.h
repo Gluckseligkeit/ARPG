@@ -10,6 +10,9 @@
 #include "EnemyCharacter.generated.h"
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AARPGAIController;
+
 /**
  * 
  */
@@ -19,6 +22,7 @@ class ARPG_API AEnemyCharacter : public AMainCharacter, public IEnemyInterface
 	GENERATED_BODY()
 public:
 	AEnemyCharacter();
+	virtual void PossessedBy(AController* NewController) override;
 	
 	//Enemy interface
 	virtual void HighlightActor() override;
@@ -60,8 +64,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
 
-private:
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
 	
+	UPROPERTY()
+	TObjectPtr<AARPGAIController> ARPGAIController;
 
+	
 	
 };
