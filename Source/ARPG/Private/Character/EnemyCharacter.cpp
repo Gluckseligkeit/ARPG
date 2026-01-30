@@ -71,6 +71,16 @@ void AEnemyCharacter::Die()
 	Super::Die();
 }
 
+void AEnemyCharacter::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AEnemyCharacter::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -78,7 +88,7 @@ void AEnemyCharacter::BeginPlay()
 	InitAbilityActorInfo();
 	if (HasAuthority())
 	{
-		UARPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UARPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 	}
 	if (UARPGUserWidget* ARPGUserWidget = Cast<UARPGUserWidget>(HealthBar->GetUserWidgetObject()))
 	{

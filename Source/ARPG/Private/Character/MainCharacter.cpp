@@ -54,6 +54,7 @@ void AMainCharacter::MultiCastHandleDeath_Implementation()
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
+	bDead = true;
 }
 
 // Called when the game starts or when spawned
@@ -63,10 +64,20 @@ void AMainCharacter::BeginPlay()
 	
 }
 
-FVector AMainCharacter::GetCombatSocketLocation()
+FVector AMainCharacter::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool AMainCharacter::IsDead_Implementation() const
+{
+	return bDead; 
+}
+
+AActor* AMainCharacter::GetAvatar_Implementation()
+{
+	return this;
 }
 
 void AMainCharacter::InitAbilityActorInfo()

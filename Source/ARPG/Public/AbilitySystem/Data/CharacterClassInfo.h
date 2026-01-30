@@ -25,6 +25,9 @@ struct FCharacterCLassDefaultInfo
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defauts")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+	
 };
 
 /**

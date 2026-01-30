@@ -66,6 +66,8 @@ public:
 	FGameplayTag InputTag_4;
 	FGameplayTag InputTag_5;
 	
+	FGameplayTag Abilities_Attack;
+	
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	
 private:
