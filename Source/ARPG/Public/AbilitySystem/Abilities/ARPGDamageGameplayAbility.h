@@ -13,6 +13,10 @@ UCLASS()
 class ARPG_API UARPGDamageGameplayAbility : public UARPGGameplayAbility
 {
 	GENERATED_BODY()
+public:
+	
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
 	
 protected:
 	

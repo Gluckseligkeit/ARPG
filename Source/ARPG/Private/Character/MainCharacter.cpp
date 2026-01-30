@@ -3,6 +3,7 @@
 
 #include "Character/MainCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "ARPGGameplayTags.h"
 #include "AbilitySystem/ARPGAbilitySystemComponent.h"
 #include "ARPG/ARPG.h"
 #include "Components/CapsuleComponent.h"
@@ -64,10 +65,23 @@ void AMainCharacter::BeginPlay()
 	
 }
 
-FVector AMainCharacter::GetCombatSocketLocation_Implementation()
+FVector AMainCharacter::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	//TODO Improve this adding data driven sockets
+	const FARPGGameplayTags& GameplayTags = FARPGGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	return FVector();
 }
 
 bool AMainCharacter::IsDead_Implementation() const
@@ -78,6 +92,11 @@ bool AMainCharacter::IsDead_Implementation() const
 AActor* AMainCharacter::GetAvatar_Implementation()
 {
 	return this;
+}
+
+TArray<FTaggedMontage> AMainCharacter::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 
 void AMainCharacter::InitAbilityActorInfo()

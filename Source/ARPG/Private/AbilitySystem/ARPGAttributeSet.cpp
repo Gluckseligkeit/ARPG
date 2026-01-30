@@ -204,6 +204,11 @@ void UARPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 		if (AMainPlayerController* PC = Cast<AMainPlayerController>(Props.SourceCharacter->GetController()))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit, bBlockedHit);
+			return;
+		}
+		if (AMainPlayerController* PC = Cast<AMainPlayerController>(Props.TargetCharacter->GetController()))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bCriticalHit, bBlockedHit);
 		}
 	}
 }
