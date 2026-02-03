@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "AbilitySystem/ARPGAbilitySystemLibrary.h"
 #include "ARPG/ARPG.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
@@ -55,7 +56,14 @@ void AARPGProjectile::Destroyed()
 void AARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (DamageEffectSpecHandle.Data.IsValid() && DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	UE_LOG(LogTemp, Warning, TEXT("Overlap with: %s"), *OtherActor->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Has Authority: %s"), HasAuthority() ? TEXT("True") : TEXT("False"));
+	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	{
+		return;
+	}
+	//Prevents PVP
+	if (!UARPGAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
 	{
 		return;
 	}

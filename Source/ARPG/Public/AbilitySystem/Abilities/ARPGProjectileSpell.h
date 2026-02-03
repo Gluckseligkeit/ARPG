@@ -12,6 +12,7 @@ class UGameplayEffect;
 /**
  * 
  */
+
 UCLASS()
 class ARPG_API UARPGProjectileSpell : public UARPGDamageGameplayAbility
 {
